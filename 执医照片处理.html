@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>图片处理</title>
+    <style>
+    #head{
+		width: 330 px;
+		height : 90 px; 
+    }
+    
+    </style>
+</head>
+<body>
+	<img id="head" src="https://mmbiz.qpic.cn/mmbiz_jpg/4KRYPWx9erJK54NVLzuUHaEJxHflpwYOStHYp1RCgFA8vkDUoeKsoltwibqwxTJmUo8SofVIaD3JEvvzIOqautw/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
+	</br>
+	<img id="img" src="">
+	<input id="file" type="file" onchange="handleimg()">
+</body>
+<script>
+
+function handleimg() { 
+    let fileObj = document.getElementById('file').files[0] //上传文件的对象
+    let reader = new FileReader()
+    reader.readAsDataURL(fileObj)
+    reader.onload = function(e) {
+        let image = new Image() //新建一个img标签
+        image.src = e.target.result
+        image.onload = function() {
+            let canvas = document.createElement('canvas'), 
+            context = canvas.getContext('2d'),
+            imageWidth = 190,    //压缩后图片的大小
+            imageHeight = 254,
+            data = ''
+
+            canvas.width = imageWidth
+            canvas.height = imageHeight
+
+            context.drawImage(image, 0, 0, imageWidth, imageHeight)
+            data = canvas.toDataURL('image/jpeg')
+            //压缩完成 
+            document.getElementById('img').src = data
+        }
+    }
+}
+</script>
+</html>
